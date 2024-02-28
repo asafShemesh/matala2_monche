@@ -42,5 +42,4 @@ class SocialNetwork:
         result = f"{self.__name_of_app} social network:\n"
         for name, user in self.__my_dict.items():
             result += f"User name: {name}, Number of posts: {len(user.posts)}, Number of followers: {len(user.followersList)}\n"
-        print("\n")
-        return result
+        return result.rstrip('\n')
