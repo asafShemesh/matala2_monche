@@ -19,27 +19,27 @@ class SocialNetwork:
             return False
         if name in self.__my_dict:  # If the name is in the dict (the "name list")
             return False
-        user = User(name, password)
+        user = User(name, password, True)
         self.__my_dict[name] = user
         #  self.my_dict.update(name)  # We add the name to the dict, now we have a new user registered
         return user
 
-# TODO : check this function
     def log_out(self, name):
         if name in self.__my_dict:  # If the name is connected, and he wants to disconnect
-            del self.__my_dict[name]  # We will delete his name from the list$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            self.__my_dict[name].status = False
+            print(f"{name} disconnected")
             return True
         return False
 
     def log_in(self, name, password):
-        if self.sign_up(name, password) in self.__my_dict:  # If the name is in the dict
+        if name in self.__my_dict:
+            self.__my_dict[name].status = True
+            print(f'{name} connected')
             return True  # Its means that he is connected
         return False
 
-    # TODO : check if i need this function
-    def print_notifications(self):
-        return False
-
-
-
-
+    def __str__(self):
+        result = f"{self.__name_of_app} social network:\n"
+        for name, user in self.__my_dict.items():
+            result += f"User name: {name}, Number of posts: {len(user.posts)}, Number of followers: {len(user.followersList)}\n"
+        return result.rstrip()
