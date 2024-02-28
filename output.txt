@@ -76,4 +76,3 @@ User name: Bob, Number of posts: 0, Number of followers: 2
 User name: Charlie, Number of posts: 1, Number of followers: 1
 User name: David, Number of posts: 1, Number of followers: 1
 User name: Eve, Number of posts: 0, Number of followers: 2
-
