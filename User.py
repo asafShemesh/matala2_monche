@@ -56,7 +56,6 @@ class User:
     def add_notification(self, string):
         self.notifications.append(string)
 
-
     def print_notifications(self):
         print(f"{self.name}'s notifications:")
         for notification in self.notifications:

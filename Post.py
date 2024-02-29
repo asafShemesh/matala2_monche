@@ -17,10 +17,11 @@ class Post:
             print(f"notification to {self.user.name}: {user.name} liked your post")
 
     def comment(self, user, comment: str):
-        if user.status and self.user!= user:
+        if user.status and self.user != user:
             comment_text = f"{user.name} commented on your post"
             self.user.notifications.append(comment_text)
             print(f"notification to {self.user.name}: {comment_text}: {comment}")
+
 
 class TextPost(Post):
     def __init__(self, content, user):
