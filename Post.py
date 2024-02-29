@@ -8,21 +8,19 @@ class Post:
         self.content = content
         self.user = user
         self.likes = 0
-        self.comments = []
-
-        self.user.notify_all(user, f"{user.name} has a new post")  # Notifying on a post
+        self.user.notify_all()
 
     def like(self, user):
-        if user.status:
+        if user.status and self.user != user:
             self.likes += 1
-            self.user.notify_user(self.user, user, f'{user.name} liked your post', True)
+            self.user.notifications.append(f"{user.name} liked your post")
+            print(f"notification to {self.user.name}: {user.name} liked your post")
 
     def comment(self, user, comment: str):
-        if user.status:
-            comment_text = f"{user.name}: {comment}"
-            self.comments.append(comment_text)
-            self.user.notify_user(self.user, user, f'{user.name} commented on your post', True, f"{comment}")
-
+        if user.status and self.user!= user:
+            comment_text = f"{user.name} commented on your post"
+            self.user.notifications.append(comment_text)
+            print(f"notification to {self.user.name}: {comment_text}: {comment}")
 
 class TextPost(Post):
     def __init__(self, content, user):

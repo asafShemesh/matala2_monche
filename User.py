@@ -1,4 +1,5 @@
 from Post import Factory
+from Observer import FollowersObserver
 
 
 class User:
@@ -9,20 +10,21 @@ class User:
         self.followersList = []
         self.status = status
         self.posts = []
-        self._notifications = []
+        self._observer = FollowersObserver(self)
+        self.notifications = []
 
     def follow(self, user):
         if self.status:
             if user not in self.__followingList:
                 self.__followingList.append(user)
-                user.followersList.append(self)
+                user.followersList.append(self._observer)
                 print(f"{self.name} started following {user.name}")
 
     def unfollow(self, user):
         if self.status:
             if user in self.__followingList:
                 self.__followingList.remove(user)
-                user.followersList.remove(self)
+                user.followersList.remove(self._observer)
                 print(f"{self.name} unfollowed {user.name}")
 
     def check_password(self, password):
@@ -51,25 +53,15 @@ class User:
     def __str__(self):
         return f"User name: {self.name}, Number of posts: {len(self.posts)}, Number of followers: {len(self.followersList)}"
 
-    def notify(self, message: str, flag: bool, more_message: str):
-        self._notifications.append(message)
+    def add_notification(self, string):
+        self.notifications.append(string)
 
-        if flag and more_message == "":
-            print(f"notification to {self.name}: {message}{more_message}")
-        elif flag:
-            print(f"notification to {self.name}: {message}: {more_message}")
 
     def print_notifications(self):
         print(f"{self.name}'s notifications:")
-        for notify in self._notifications:
-            print(notify)
+        for notification in self.notifications:
+            print(f"{notification}")
 
-    def notify_user(self, user_to_notify, notifier, message, flag: bool = False,
-                    extra_message: str = "") -> None:
-        if user_to_notify == notifier:
-            return
-        user_to_notify.notify(message, flag, extra_message)
-
-    def notify_all(self, notifier, message, flag: bool = False):
-        for user in notifier.followersList:
-            self.notify_user(user, notifier, message, flag)
+    def notify_all(self):
+        for user in self.followersList:
+            user.update(self)
